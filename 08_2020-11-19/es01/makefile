@@ -1,5 +1,6 @@
 CC = gcc
-CFLAGS = -Wall -DEBUG
+# CFLAGS = -Wall -DEBUG -DCUSTOM_TYPE="int"
+CFLAGS = -Wall -DCUSTOM_TYPE="int" -g
 
 randomTree: main.o bitree.o
 	$(CC) $(CFLAGS) -o randomTree main.o bitree.o

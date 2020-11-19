@@ -1,6 +1,8 @@
 #ifndef ITEM_H
 #define ITEM_H
 
+#include <stdlib.h>
+
 #ifndef CUSTOM_TYPE
 #define CUSTOM_TYPE int
 #endif

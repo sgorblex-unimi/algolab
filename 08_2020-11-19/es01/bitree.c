@@ -1,5 +1,4 @@
 #include "bitree.h"
-#include <debug.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -23,7 +22,7 @@ Bit_node bit_new(Item i) {
 }
 
 void bit_preorder(Bit_node t) {
-	if (t == NULL)
+	if (!t)
 		return;
 	printkey(t);
 	printf(" ");
@@ -32,7 +31,7 @@ void bit_preorder(Bit_node t) {
 }
 
 void bit_inorder(Bit_node t) {
-	if (t == NULL)
+	if (!t)
 		return;
 	bit_inorder(t->l);
 	printkey(t);
@@ -41,7 +40,7 @@ void bit_inorder(Bit_node t) {
 }
 
 void bit_postorder(Bit_node t) {
-	if (t == NULL)
+	if (!t)
 		return;
 	bit_postorder(t->l);
 	bit_postorder(t->r);
@@ -55,26 +54,26 @@ void printSpaces(int n) {
 }
 
 void bit_printassummary(Bit_node t, int padding) {
+	if (!t)
+		return;
 	printSpaces(padding);
-	printf("*");
+	printf("* ");
 	printkey(t);
 	printf("\n");
-	// printf("├── ");
-	int ceFiglio = t->l || t->r;
-	if (t->l)
-		bit_printassummary(t->l, padding + 4);
-	else if (ceFiglio) {
-		printSpaces(padding);
-		printf("*");
-		printf("\n");
-	}
-	// printf("└── ");
-	if (t->r)
-		bit_printassummary(t->r, padding + 4);
-	else if (ceFiglio) {
-		printSpaces(padding);
-		printf("*");
-		printf("\n");
+	padding += 4;
+	if (t->l || t->r) {
+		if (t->l)
+			bit_printassummary(t->l, padding);
+		else {
+			printSpaces(padding);
+			printf("* \n");
+		}
+		if (t->r)
+			bit_printassummary(t->r, padding);
+		else {
+			printSpaces(padding);
+			printf("* \n");
+		}
 	}
 }
 
