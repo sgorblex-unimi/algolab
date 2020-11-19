@@ -29,10 +29,11 @@ int main() {
 	printf("\n");
 	Bit_node t = bit_arr2tree(a, ARRLEN, 0);
 	bit_printassummary(t, 0);
+	printf("Preorder: ");
 	bit_preorder(t);
-	printf("\n");
+	printf("\nIn-order: ");
 	bit_inorder(t);
-	printf("\n");
+	printf("\nPostorder: ");
 	bit_postorder(t);
 	printf("\n");
 	return 0;
