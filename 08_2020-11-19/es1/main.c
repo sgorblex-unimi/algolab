@@ -26,12 +26,11 @@ Item *randomArr(int size) {
 int main() {
 	srand(time(NULL));
 	Item *a = randomArr(ARRLEN);
-	printf("\n");
 	Bit_node t = bit_arr2tree(a, ARRLEN, 0);
 	bit_printassummary(t, 0);
-	printf("Preorder: ");
+	printf("Preorder:  ");
 	bit_preorder(t);
-	printf("\nIn-order: ");
+	printf("\nIn-order:  ");
 	bit_inorder(t);
 	printf("\nPostorder: ");
 	bit_postorder(t);
