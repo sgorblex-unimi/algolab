@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// TODO: this program is WIP
-
 struct bit_node {
 	Item item;
 	struct bit_node *l, *r;
