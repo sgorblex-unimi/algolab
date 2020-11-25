@@ -1,4 +1,4 @@
-#include "bistree.h"
+#include "../include/bistree.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -79,6 +79,7 @@ int bistree_insert(BisTree *tree, const void *data) {
 	return insert(tree, bitree_root(tree), data);
 }
 
+// [ UNFINISHED ]
 static int remove(BisTree *tree, BiTreeNode *node, const void *data) {
 	int cmpval, retval;
 	if (bitree_is_eob(node)) {
