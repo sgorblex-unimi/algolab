@@ -29,6 +29,14 @@ void bitree_rem_right(BiTree *tree, BiTreeNode *node);
 
 int bitree_merge(BiTree *merge, BiTree *left, BiTree *right, const void *data);
 
+void bitree_inorder(BiTree *tree, void (*action)(void *data));
+
+void bitree_preorder(BiTree *tree, void (*action)(void *data));
+
+void bitree_postorder(BiTree *tree, void (*action)(void *data));
+
+int bitree_fromarr(BiTree *tree, void **arr, int size);
+
 #define bitree_size(tree) ((tree)->size)
 
 #define bitree_root(tree) ((tree)->root)
