@@ -79,28 +79,78 @@ int bistree_insert(BisTree *tree, const void *data) {
 	return insert(tree, bitree_root(tree), data);
 }
 
-// [ UNFINISHED ]
-static int remove(BisTree *tree, BiTreeNode *node, const void *data) {
-	int cmpval, retval;
-	if (bitree_is_eob(node)) {
-		// Return that the data was not found.
-		return -1;
-	}
-	cmpval = tree->compare(data, bitree_data(node));
-	if (cmpval < 0) {
-		// Move to the left.
-		retval = remove(tree, bitree_left(node), data);
-	} else if (cmpval > 0) {
-		// Move to the right.
-		retval = remove(tree, bitree_right(node), data);
-	} else {
-		// Found.
-		// TODO!!!!!!!
-		retval = 0;
-	}
-	return retval;
-}
-
 int bistree_remove(BisTree *tree, const void *data) {
-	return remove(tree, bitree_root(tree), data);
+	BiTreeNode *node = bitree_root(tree), *parent = NULL;
+	int cmpval;
+	// Look for a node with the specified data and its parent.
+	while (!bitree_is_eob(node) && (cmpval = tree->compare(data, bitree_data(node)))) {
+		parent = node;
+		if (cmpval < 0)
+			node = bitree_left(node);
+		else
+			node = bitree_right(node);
+	}
+	// Case node not found
+	if (bitree_is_eob(node))
+		return -1;
+	// Case node found
+	if (bitree_is_eob(bitree_left(node))) {
+		// No left child: substitute node with its right child
+		cmpval = tree->compare(bitree_data(node), bitree_data(parent));
+		if (!bitree_is_eob(parent)) {
+			if (cmpval < 0)
+				// Node is a left child
+				bitree_left(parent) = bitree_right(node);
+			else
+				// Node is a right child
+				bitree_right(parent) = bitree_right(node);
+		} else
+			// Node is the root
+			bitree_root(tree) = bitree_right(bitree_root(tree));
+		if (tree->destroy != NULL) {
+			// Call a user-defined function to free dynamically allocated data.
+			tree->destroy((node)->data);
+		}
+		free(node);
+	} else if (bitree_is_eob(bitree_right(node))) {
+		// No right child: substitute node with its left child
+		cmpval = tree->compare(bitree_data(node), bitree_data(parent));
+		if (!bitree_is_eob(parent)) {
+			if (cmpval < 0)
+				// Node is a left child
+				bitree_left(parent) = bitree_left(node);
+			else
+				// Node is a right child
+				bitree_right(parent) = bitree_left(node);
+		} else
+			// Node is the root
+			bitree_root(tree) = bitree_left(bitree_root(tree));
+		if (tree->destroy != NULL) {
+			// Call a user-defined function to free dynamically allocated data.
+			tree->destroy((node)->data);
+		}
+		free(node);
+	} else {
+		// Has both children: substitute it with the greatest element in its left subtree
+		BiTreeNode *greatestParent = node, *greatest = bitree_left(node);
+		// Find greatest
+		while (!bitree_is_eob(bitree_right(greatest))) {
+			greatestParent = greatest;
+			greatest = bitree_right(greatest);
+		}
+		if (tree->destroy != NULL) {
+			// Call a user-defined function to free dynamically allocated data.
+			tree->destroy((node)->data);
+		}
+		// Substitute the data
+		bitree_data(node) = bitree_data(greatest);
+		if (greatestParent == node)
+			// Greatest is the left child of node
+			bitree_left(node) = bitree_left(greatest);
+		else
+			// Greatest is a right child
+			bitree_right(greatestParent) = bitree_left(greatest);
+		free(greatest);
+	}
+	return 0;
 }
