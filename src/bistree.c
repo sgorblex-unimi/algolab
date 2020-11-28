@@ -94,6 +94,7 @@ int bistree_remove(BisTree *tree, const void *data) {
 	if (bitree_is_eob(node))
 		return -1;
 	// Case node found
+	tree->size--;
 	if (bitree_is_eob(bitree_left(node))) {
 		// No left child: substitute node with its right child
 		cmpval = tree->compare(bitree_data(node), bitree_data(parent));
