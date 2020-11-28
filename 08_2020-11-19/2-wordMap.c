@@ -9,8 +9,9 @@ typedef struct Entry_ {
 	int value;
 } * Entry;
 
-void printEntry(void *n) {
+int printEntry(void *n) {
 	printf("%s: %d\n", ((Entry)n)->key, ((Entry)n)->value);
+	return 0;
 }
 
 char *read_word() {
@@ -50,16 +51,18 @@ void destroyEntry(void *entry) {
 	free((Entry)entry);
 }
 
-void invorder(BiTreeNode *node, void (*action)(void *data)) {
+int invorder(BiTreeNode *node, int (*action)(void *data)) {
 	if (bitree_is_eob(node))
-		return;
+		return 0;
 	invorder(node->right, action);
-	action(node->data);
+	if (action(node->data))
+		return -1;
 	invorder(node->left, action);
+	return 0;
 }
 
-void bitree_invInorder(BiTree *tree, void (*action)(void *data)) {
-	invorder(tree->root, action);
+int bitree_invInorder(BiTree *tree, int (*action)(void *data)) {
+	return invorder(tree->root, action);
 }
 
 int main() {

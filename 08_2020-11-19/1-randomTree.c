@@ -23,7 +23,10 @@ void printSpaces(int n) {
 		printf(" ");
 }
 
-void printInt(void *data) { printf("%d ", *(int *)data); }
+int printInt(void *data) {
+	printf("%d ", *(int *)data);
+	return 0;
+}
 
 void printassummary(BiTreeNode *node, int padding) {
 	if (bitree_is_eob(node))
