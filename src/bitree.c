@@ -73,8 +73,7 @@ int bitree_ins_right(BiTree *tree, BiTreeNode *node, const void *data) {
 }
 
 void bitree_rem_left(BiTree *tree, BiTreeNode *node) {
-	BiTreeNode
-	    **position;
+	BiTreeNode **position;
 	// Do not allow removal from an empty tree.
 	if (bitree_size(tree) == 0)
 		return;
@@ -100,8 +99,7 @@ void bitree_rem_left(BiTree *tree, BiTreeNode *node) {
 }
 
 void bitree_rem_right(BiTree *tree, BiTreeNode *node) {
-	BiTreeNode
-	    **position;
+	BiTreeNode **position;
 	// Do not allow removal from an empty tree.
 	if (bitree_size(tree) == 0)
 		return;
@@ -150,10 +148,11 @@ int bitree_merge(BiTree *merge, BiTree *left, BiTree *right, const void *data) {
 static int inorder(BiTreeNode *node, int (*action)(void *data)) {
 	if (bitree_is_eob(node))
 		return 0;
-	inorder(node->left, action);
-	if (action(node->data))
+	inorder(bitree_left(node), action);
+	// Perform the action
+	if (action(node->data) != 0)
 		return -1;
-	inorder(node->right, action);
+	inorder(bitree_right(node), action);
 	return 0;
 }
 
@@ -164,10 +163,11 @@ int bitree_inorder(BiTree *tree, int (*action)(void *data)) {
 static int preorder(BiTreeNode *node, int (*action)(void *data)) {
 	if (bitree_is_eob(node))
 		return 0;
-	if (action(node->data))
+	// Perform the action
+	if (action(node->data) != 0)
 		return -1;
-	preorder(node->left, action);
-	preorder(node->right, action);
+	preorder(bitree_left(node), action);
+	preorder(bitree_right(node), action);
 	return 0;
 }
 
@@ -178,9 +178,10 @@ int bitree_preorder(BiTree *tree, int (*action)(void *data)) {
 static int postorder(BiTreeNode *node, int (*action)(void *data)) {
 	if (bitree_is_eob(node))
 		return 0;
-	postorder(node->left, action);
-	postorder(node->right, action);
-	if (action(node->data))
+	postorder(bitree_left(node), action);
+	postorder(bitree_right(node), action);
+	// Perform the action
+	if (action(node->data) != 0)
 		return -1;
 	return 0;
 }
@@ -192,27 +193,32 @@ int bitree_postorder(BiTree *tree, int (*action)(void *data)) {
 static int fromarr(BiTree *tree, BiTreeNode *node, void **arr, int arrsize, int index) {
 	const int leftindex = 2 * index + 1;
 	if (leftindex < arrsize && arr[leftindex] != NULL) {
-		if (bitree_ins_left(tree, node, arr[leftindex]))
+		// There is a valid left child
+		if (bitree_ins_left(tree, node, arr[leftindex]) != 0)
 			return -1;
-		if (fromarr(tree, node->left, arr, arrsize, leftindex))
+		if (fromarr(tree, bitree_left(node), arr, arrsize, leftindex) != 0)
 			return -1;
 	}
 	const int rightindex = 2 * index + 2;
 	if (rightindex < arrsize && arr[rightindex] != NULL) {
-		if (bitree_ins_right(tree, node, arr[rightindex]))
+		// There is a valid right child
+		if (bitree_ins_right(tree, node, arr[rightindex]) != 0)
 			return -1;
-		if (fromarr(tree, node->right, arr, arrsize, rightindex))
+		if (fromarr(tree, bitree_right(node), arr, arrsize, rightindex) != 0)
 			return -1;
 	}
 	return 0;
 }
 
-int bitree_fromarr(BiTree *tree, void **arr, int arrsize) {
-	if (bitree_size(tree) > 0 || arrsize < 1)
+int bitree_fromarr(BiTree *tree, void **arr, int len) {
+	if (bitree_size(tree) > 0 || len < 1)
+		// Tree is not empty or invalid array
 		return -1;
 	if (arr[0] == NULL)
+		// No nodes to add
 		return 0;
-	if (bitree_ins_left(tree, NULL, arr[0]))
+	if (bitree_ins_left(tree, NULL, arr[0]) != 0)
+		// Error adding the root
 		return -1;
-	return fromarr(tree, tree->root, arr, arrsize, 0);
+	return fromarr(tree, tree->root, arr, len, 0);
 }

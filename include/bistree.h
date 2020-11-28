@@ -17,8 +17,7 @@ void bistree_destroy(BisTree *tree);
 // Inserts a node containing data in tree. It uses the binary search trees criteria to determine where to put the new node. Returns 0 if inserting the node is successful, -1 otherwise. It is the responsibility of the caller to manage the storage associated with data.
 int bistree_insert(BisTree *tree, const void *data);
 
-// [ NOT IMPLEMENTED YET ]
-// Removes a node matching data from tree. If the destroy function pointer was set to not NULL when initializing the tree, then it will be used to destroy the data related to the removed node.
+// Removes a node matching data from tree. If the destroy function pointer was set to not NULL when initializing the tree, then it will be used to destroy the data related to the removed node. Returns -1 if a matching node was not found, 0 otherwise.
 int bistree_remove(BisTree *tree, const void *data);
 
 // Determines whether a node matches data's pointed data in tree. If a match is found, after the operation data points to the matching data in the binary search tree upon return.
