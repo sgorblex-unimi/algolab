@@ -40,14 +40,14 @@ void bitree_rem_right(BiTree *tree, BiTreeNode *node);
 // Merges left and right as subtrees of merge. After the operation merge's root node will contain data and left and right will be destroyed.
 int bitree_merge(BiTree *merge, BiTree *left, BiTree *right, const void *data);
 
-// Executes the operation given by the function pointer action on the data of each of the nodes of tree, with the in-oder pattern.
-void bitree_inorder(BiTree *tree, void (*action)(void *data));
+// Executes the operation given by the function pointer action on the data of each of the nodes of tree, with the in-oder pattern. If action returns a value different from 0 at any point, the visit exits immediately with the return value -1, otherwise it will be 0.
+int bitree_inorder(BiTree *tree, int (*action)(void *data));
 
-// Executes the operation given by the function pointer action on the data of each of the nodes of tree, with the preorder pattern.
-void bitree_preorder(BiTree *tree, void (*action)(void *data));
+// Executes the operation given by the function pointer action on the data of each of the nodes of tree, with the preorder pattern. If action returns a value different from 0 at any point, the visit exits immediately with the return value -1, otherwise it will be 0.
+int bitree_preorder(BiTree *tree, int (*action)(void *data));
 
-// Executes the operation given by the function pointer action on the data of each of the nodes of tree, with the postorder pattern.
-void bitree_postorder(BiTree *tree, void (*action)(void *data));
+// Executes the operation given by the function pointer action on the data of each of the nodes of tree, with the postorder pattern. If action returns a value different from 0 at any point, the visit exits immediately with the return value -1, otherwise it will be 0.
+int bitree_postorder(BiTree *tree, int (*action)(void *data));
 
 // Constructs tree so that its nodes contain the values from the array arr, of size len. In the result the node containing the entry of array index i will have its children containing the data of array index 2*i+1 (left) and 2*i+2 (right).
 int bitree_fromarr(BiTree *tree, void **arr, int len);

@@ -147,40 +147,46 @@ int bitree_merge(BiTree *merge, BiTree *left, BiTree *right, const void *data) {
 	return 0;
 }
 
-void inorder(BiTreeNode *node, void (*action)(void *data)) {
+static int inorder(BiTreeNode *node, int (*action)(void *data)) {
 	if (bitree_is_eob(node))
-		return;
+		return 0;
 	inorder(node->left, action);
-	action(node->data);
+	if (action(node->data))
+		return -1;
 	inorder(node->right, action);
+	return 0;
 }
 
-void bitree_inorder(BiTree *tree, void (*action)(void *data)) {
-	inorder(tree->root, action);
+int bitree_inorder(BiTree *tree, int (*action)(void *data)) {
+	return inorder(tree->root, action);
 }
 
-void preorder(BiTreeNode *node, void (*action)(void *data)) {
+static int preorder(BiTreeNode *node, int (*action)(void *data)) {
 	if (bitree_is_eob(node))
-		return;
-	action(node->data);
+		return 0;
+	if (action(node->data))
+		return -1;
 	preorder(node->left, action);
 	preorder(node->right, action);
+	return 0;
 }
 
-void bitree_preorder(BiTree *tree, void (*action)(void *data)) {
-	preorder(tree->root, action);
+int bitree_preorder(BiTree *tree, int (*action)(void *data)) {
+	return preorder(tree->root, action);
 }
 
-void postorder(BiTreeNode *node, void (*action)(void *data)) {
+static int postorder(BiTreeNode *node, int (*action)(void *data)) {
 	if (bitree_is_eob(node))
-		return;
+		return 0;
 	postorder(node->left, action);
 	postorder(node->right, action);
-	action(node->data);
+	if (action(node->data))
+		return -1;
+	return 0;
 }
 
-void bitree_postorder(BiTree *tree, void (*action)(void *data)) {
-	postorder(tree->root, action);
+int bitree_postorder(BiTree *tree, int (*action)(void *data)) {
+	return postorder(tree->root, action);
 }
 
 static int fromarr(BiTree *tree, BiTreeNode *node, void **arr, int arrsize, int index) {
