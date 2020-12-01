@@ -157,7 +157,7 @@ static int inorder(BiTreeNode *node, int (*action)(void *data)) {
 }
 
 int bitree_inorder(BiTree *tree, int (*action)(void *data)) {
-	return inorder(tree->root, action);
+	return inorder(bitree_root(tree), action);
 }
 
 static int preorder(BiTreeNode *node, int (*action)(void *data)) {
@@ -172,7 +172,7 @@ static int preorder(BiTreeNode *node, int (*action)(void *data)) {
 }
 
 int bitree_preorder(BiTree *tree, int (*action)(void *data)) {
-	return preorder(tree->root, action);
+	return preorder(bitree_root(tree), action);
 }
 
 static int postorder(BiTreeNode *node, int (*action)(void *data)) {
@@ -187,7 +187,7 @@ static int postorder(BiTreeNode *node, int (*action)(void *data)) {
 }
 
 int bitree_postorder(BiTree *tree, int (*action)(void *data)) {
-	return postorder(tree->root, action);
+	return postorder(bitree_root(tree), action);
 }
 
 static int fromarr(BiTree *tree, BiTreeNode *node, void **arr, int arrsize, int index) {
