@@ -97,8 +97,8 @@ int bistree_remove(BisTree *tree, const void *data) {
 	tree->size--;
 	if (bitree_is_eob(bitree_left(node))) {
 		// No left child: substitute node with its right child
-		cmpval = tree->compare(bitree_data(node), bitree_data(parent));
 		if (!bitree_is_eob(parent)) {
+			cmpval = tree->compare(bitree_data(node), bitree_data(parent));
 			if (cmpval < 0)
 				// Node is a left child
 				bitree_left(parent) = bitree_right(node);
@@ -107,7 +107,7 @@ int bistree_remove(BisTree *tree, const void *data) {
 				bitree_right(parent) = bitree_right(node);
 		} else
 			// Node is the root
-			bitree_root(tree) = bitree_right(bitree_root(tree));
+			tree->root = bitree_right(bitree_root(tree));
 		if (tree->destroy != NULL) {
 			// Call a user-defined function to free dynamically allocated data.
 			tree->destroy((node)->data);
@@ -115,8 +115,8 @@ int bistree_remove(BisTree *tree, const void *data) {
 		free(node);
 	} else if (bitree_is_eob(bitree_right(node))) {
 		// No right child: substitute node with its left child
-		cmpval = tree->compare(bitree_data(node), bitree_data(parent));
 		if (!bitree_is_eob(parent)) {
+			cmpval = tree->compare(bitree_data(node), bitree_data(parent));
 			if (cmpval < 0)
 				// Node is a left child
 				bitree_left(parent) = bitree_left(node);
@@ -125,7 +125,7 @@ int bistree_remove(BisTree *tree, const void *data) {
 				bitree_right(parent) = bitree_left(node);
 		} else
 			// Node is the root
-			bitree_root(tree) = bitree_left(bitree_root(tree));
+			tree->root = bitree_left(bitree_root(tree));
 		if (tree->destroy != NULL) {
 			// Call a user-defined function to free dynamically allocated data.
 			tree->destroy((node)->data);
