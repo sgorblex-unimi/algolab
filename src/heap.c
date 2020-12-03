@@ -59,35 +59,10 @@ int heap_insert(Heap *heap, const void *data) {
 	return 0;
 }
 
-int heap_extract(Heap *heap, void **data) {
-	void *save, *temp;
-	int ipos, lpos, rpos, mpos;
-	// Do not allow extraction from an empty heap.
-	if (heap_size(heap) == 0)
-		return -1;
-	// Extract the node at the top of the heap.
-	*data = heap->tree[0];
-	// Adjust the storage used by the heap.
-	save = heap->tree[heap_size(heap) - 1];
-	if (heap_size(heap) - 1 > 0) {
-		if ((temp = (void **)realloc(heap->tree, (heap_size(heap) - 1) * sizeof(void *))) == NULL) {
-			return -1;
-		} else {
-			heap->tree = temp;
-		}
-		// Adjust the size of the heap to account for the extracted node.
-		heap->size--;
-	} else {
-		// Manage the heap when extracting the last node.
-		free(heap->tree);
-		heap->tree = NULL;
-		heap->size = 0;
-		return 0;
-	}
-	// Copy the last node to the top.
-	heap->tree[0] = save;
+static void heapify(Heap *heap, int ipos) {
+	void *temp;
+	int lpos, rpos, mpos;
 	// Heapify the tree by pushing the contents of the new top downward.
-	ipos = 0;
 	lpos = heap_left(ipos);
 	rpos = heap_right(ipos);
 	while (1) {
@@ -114,5 +89,50 @@ int heap_extract(Heap *heap, void **data) {
 			ipos = mpos;
 		}
 	}
+}
+
+int heap_extract(Heap *heap, void **data) {
+	void *save, *temp;
+	// Do not allow extraction from an empty heap.
+	if (heap_size(heap) == 0)
+		return -1;
+	// Extract the node at the top of the heap.
+	*data = heap->tree[0];
+	// Adjust the storage used by the heap.
+	save = heap->tree[heap_size(heap) - 1];
+	if (heap_size(heap) - 1 > 0) {
+		if ((temp = (void **)realloc(heap->tree, (heap_size(heap) - 1) * sizeof(void *))) == NULL) {
+			return -1;
+		} else {
+			heap->tree = temp;
+		}
+		// Adjust the size of the heap to account for the extracted node.
+		heap->size--;
+	} else {
+		// Manage the heap when extracting the last node.
+		free(heap->tree);
+		heap->tree = NULL;
+		heap->size = 0;
+		return 0;
+	}
+	// Copy the last node to the top.
+	heap->tree[0] = save;
+	heapify(heap, 0);
 	return 0;
+}
+
+void heapSort(void **arr, int len, int (*compare)(const void *key1, const void *key2)) {
+	Heap h;
+	h.compare = compare;
+	h.size = len;
+	h.tree = arr;
+	for (int i = len / 2; i >= 0; i--)
+		heapify(&h, i);
+	void *temp;
+	for (h.size = len - 1; h.size >= 1; h.size--) {
+		temp = h.tree[0];
+		h.tree[0] = h.tree[h.size];
+		h.tree[h.size] = temp;
+		heapify(&h, 0);
+	}
 }

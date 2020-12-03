@@ -18,4 +18,6 @@ int heap_extract(Heap *heap, void **data);
 
 #define heap_size(heap) ((heap)->size)
 
+void heapSort(void **arr, int len, int (*compare)(const void *key1, const void *key2));
+
 #endif
