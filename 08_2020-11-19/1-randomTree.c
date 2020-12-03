@@ -70,7 +70,7 @@ int main() {
 	printArr(a, ARRLEN);
 	BiTree tree;
 	bitree_init(&tree, free);
-	if (bitree_fromarr(&tree, (void **)a, ARRLEN)) {
+	if (bitree_fromarr(&tree, (const void **)a, ARRLEN)) {
 		printf("Error creating the tree\n");
 		return 1;
 	}

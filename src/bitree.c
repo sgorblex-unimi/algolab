@@ -190,7 +190,7 @@ int bitree_postorder(BiTree *tree, int (*action)(void *data)) {
 	return postorder(bitree_root(tree), action);
 }
 
-static int fromarr(BiTree *tree, BiTreeNode *node, void **arr, int arrsize, int index) {
+static int fromarr(BiTree *tree, BiTreeNode *node, const void **arr, int arrsize, int index) {
 	const int leftindex = 2 * index + 1;
 	if (leftindex < arrsize && arr[leftindex] != NULL) {
 		// There is a valid left child
@@ -210,7 +210,7 @@ static int fromarr(BiTree *tree, BiTreeNode *node, void **arr, int arrsize, int 
 	return 0;
 }
 
-int bitree_fromarr(BiTree *tree, void **arr, int len) {
+int bitree_fromarr(BiTree *tree, const void **arr, int len) {
 	if (bitree_size(tree) > 0 || len < 1)
 		// Tree is not empty or invalid array
 		return -1;
