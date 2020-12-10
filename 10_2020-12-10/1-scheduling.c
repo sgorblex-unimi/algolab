@@ -1,4 +1,3 @@
-#include "../include/debug.h"
 #include "../include/heap.h"
 #include <stdio.h>
 #include <stdlib.h>

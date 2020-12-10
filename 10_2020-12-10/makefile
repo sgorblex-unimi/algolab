@@ -1,6 +1,6 @@
 CC = gcc
-# CFLAGS = -Wall
-CFLAGS = -Wall -g -DEBUG
+CFLAGS = -Wall
+# CFLAGS = -Wall -g -DEBUG
 
 es10: scheduling
 
