@@ -41,6 +41,7 @@ int main() {
 				s[place] = candidate;
 		}
 	}
-	printIntArr(s, size + 1);
+	// printIntArr(s, size + 1);
+	printf("Max total value: %d\n", s[size]);
 	return 0;
 }
