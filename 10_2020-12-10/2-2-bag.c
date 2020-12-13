@@ -40,7 +40,7 @@ int main() {
 					s[i][j] = candidate;
 			}
 		}
-	printf("     |   ");
+	printf("\n     |   ");
 	for (int j = 0; j <= typesNum; j++)
 		printf("%d\t ", j);
 	printf("\n-----|--------------------------------------------\n");
@@ -50,5 +50,18 @@ int main() {
 			printf("%2d\t", s[i][j]);
 		printf("\n");
 	}
+	int i = size;
+	int filter[typesNum];
+	for (int j = typesNum; j > 0; j--) {
+		if (s[i][j - 1] < s[i][j]) {
+			filter[j - 1] = 1;
+			i -= types[j - 1]->w;
+		} else
+			filter[j - 1] = 0;
+	}
+	printf("\nSolution: \n");
+	for (int i = 0; i < typesNum; i++)
+		if (filter[i])
+			printf("%d %d\n", types[i]->w, types[i]->v);
 	return 0;
 }
