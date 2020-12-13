@@ -7,7 +7,13 @@ typedef struct Type_ {
 
 void printIntArr(int arr[], int len) {
 	for (int i = 0; i < len; i++)
-		printf("%d: %d\n", i, arr[i]);
+		printf("%2d\t", i);
+	printf("\n-");
+	for (int i = 1; i < len; i++)
+		printf("--------");
+	printf("-\n");
+	for (int i = 0; i < len; i++)
+		printf("%2d\t", arr[i]);
 	printf("\n");
 }
 
@@ -37,11 +43,12 @@ int main() {
 		for (int j = 0; j < typesNum; j++) {
 			int candidate = s[i] + types[j]->v;
 			int place = i + types[j]->w;
-			if (candidate > s[place])
+			if (place <= size && candidate > s[place])
 				s[place] = candidate;
 		}
 	}
-	// printIntArr(s, size + 1);
-	printf("Max total value: %d\n", s[size]);
+	printf("\n");
+	printIntArr(s, size + 1);
+	printf("\nMax total value: %d\n", s[size]);
 	return 0;
 }
