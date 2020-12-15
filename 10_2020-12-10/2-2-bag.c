@@ -11,21 +11,15 @@ void printIntArr(int arr[], int len) {
 	printf("\n");
 }
 
-#define MAXARRLEN 30
-
 int main() {
-	Type types[MAXARRLEN];
-	int w, v;
-	int typesNum;
+	Type *types = malloc(0);
+	int typesNum = 0;
 	printf("Capacity:\n");
-	int size = 0;
+	int size;
 	scanf(" %d", &size);
 	printf("Types ([weight value]):\n");
-	for (typesNum = 0; scanf(" %d %d", &w, &v) != EOF; typesNum++) {
-		types[typesNum] = malloc(sizeof(struct Type_));
-		types[typesNum]->w = w;
-		types[typesNum]->v = v;
-	}
+	for (int w, v; scanf(" %d %d\n", &w, &v) == 2; types = realloc(types, (typesNum + 1) * sizeof(Type)), types[typesNum] = malloc(sizeof(struct Type_)), types[typesNum]->w = w, types[typesNum++]->v = v)
+		;
 	int s[size + 1][typesNum + 1];
 	for (int i = 0; i <= size; i++)
 		for (int j = 0; j <= typesNum; j++)
@@ -50,16 +44,15 @@ int main() {
 			printf("%2d\t", s[i][j]);
 		printf("\n");
 	}
-	int i = size;
 	int filter[typesNum];
-	for (int j = typesNum; j > 0; j--) {
+	for (int i = size, j = typesNum; j > 0; j--) {
 		if (s[i][j - 1] < s[i][j]) {
 			filter[j - 1] = 1;
 			i -= types[j - 1]->w;
 		} else
 			filter[j - 1] = 0;
 	}
-	printf("\nSolution: \n");
+	printf("\nTotal value: %d\nTypes:\n", s[size][typesNum]);
 	for (int i = 0; i < typesNum; i++)
 		if (filter[i])
 			printf("%d %d\n", types[i]->w, types[i]->v);

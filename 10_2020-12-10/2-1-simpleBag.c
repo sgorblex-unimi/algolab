@@ -17,21 +17,15 @@ void printIntArr(int arr[], int len) {
 	printf("\n");
 }
 
-#define MAXARRLEN 30
-
 int main() {
-	Type types[MAXARRLEN];
-	int w, v;
-	int typesNum;
+	Type *types = malloc(0);
+	int typesNum = 0;
 	printf("Capacity:\n");
-	int size = 0;
+	int size;
 	scanf(" %d", &size);
 	printf("Types ([weight value]):\n");
-	for (typesNum = 0; scanf(" %d %d", &w, &v) != EOF; typesNum++) {
-		types[typesNum] = malloc(sizeof(struct Type_));
-		types[typesNum]->w = w;
-		types[typesNum]->v = v;
-	}
+	for (int w, v; scanf(" %d %d\n", &w, &v) == 2; types = realloc(types, (typesNum + 1) * sizeof(Type)), types[typesNum] = malloc(sizeof(struct Type_)), types[typesNum]->w = w, types[typesNum++]->v = v)
+		;
 	int s[size + 1];
 	for (int i = 0; i < size + 1; i++)
 		s[i] = 0;

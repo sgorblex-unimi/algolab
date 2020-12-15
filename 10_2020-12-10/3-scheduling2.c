@@ -7,16 +7,13 @@ void printIntArr(int arr[], int len) {
 	printf("\n");
 }
 
-#define MAXARRLEN 30
-
 int main() {
-	int events[MAXARRLEN], eventNum = 0, maxDuration = 0;
+	int *events = malloc(0), eventNum = 0, maxDuration;
 	printf("Total (maximum) duration:\n");
 	scanf(" %d", &maxDuration);
 	printf("Durations:\n");
-	for (int duration; scanf(" %d", &duration) != EOF; eventNum++) {
-		events[eventNum] = duration;
-	}
+	for (int duration; scanf(" %d", &duration) == 1; events = realloc(events, (eventNum + 1) * sizeof(int)), events[eventNum++] = duration)
+		;
 	int s[maxDuration + 1][eventNum + 1];
 	for (int i = 0; i <= maxDuration; i++)
 		for (int j = 0; j <= eventNum; j++)

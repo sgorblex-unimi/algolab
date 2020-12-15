@@ -46,21 +46,17 @@ void printIntervals(Interval arr[], int len, int filter[]) {
 			printf("%d-%d %d\n", arr[i]->i, arr[i]->f, arr[i]->v);
 }
 
-#define MAXARRLEN 30
-
 int main() {
-	int size;
-	Interval intervals[MAXARRLEN];
-	for (int i = 0; i < MAXARRLEN; i++)
-		intervals[i] = malloc(sizeof(struct Interval_));
-	for (size = 1; scanf("%d-%d %d\n", &(intervals[size]->i), &(intervals[size]->f), &(intervals[size]->v)) != EOF && size < 30; size++)
+	int size = 1;
+	Interval *intervals = malloc(0);
+	for (int i, v, f; scanf(" %d-%d %d\n", &i, &f, &v) == 3; intervals = realloc(intervals, (size + 1) * sizeof(Interval)), intervals[size] = malloc(sizeof(struct Interval_)), intervals[size]->i = i, intervals[size]->f = f, intervals[size++]->v = v)
 		;
-	heapSort((void **)intervals, size, compareEndTime);
+	heapSort((void **)(intervals + 1), size - 1, compareEndTime);
 	int m[size];
 	int opt = findOptimal(m, intervals, size);
 	int solutionFilter[size];
 	findSolution(solutionFilter, intervals, size, m);
-	printf("Total value: %d\n", opt);
+	printf("\nTotal value: %d\nEvents:\n", opt);
 	printIntervals(intervals, size, solutionFilter);
 	return 0;
 }
