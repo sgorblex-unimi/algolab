@@ -43,6 +43,22 @@ int main() {
 	}
 	printf("\n");
 	printIntArr(s, size + 1);
-	printf("\nMax total value: %d\n", s[size]);
+	int filter[typesNum];
+	for (int i = 0; i < typesNum; i++)
+		filter[i] = 0;
+	for (int i = size; i > 0;) {
+		for (int j = 0; j < typesNum; j++) {
+			int position = i - types[j]->w;
+			if (s[position] == s[i] - types[j]->v) {
+				filter[j]++;
+				i = position;
+				break;
+			}
+		}
+	}
+	printf("\nMax total value: %d\nTypes:\n", s[size]);
+	for (int i = 0; i < typesNum; i++)
+		if (filter[i])
+			printf("%d %d:\t%d\n", types[i]->w, types[i]->v, filter[i]);
 	return 0;
 }
