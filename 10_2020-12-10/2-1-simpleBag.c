@@ -40,13 +40,18 @@ int main() {
 			if (place <= size && candidate > s[place])
 				s[place] = candidate;
 		}
+		printIntArr(s, size + 1);
+		printf("\n\n\n");
 	}
 	printf("\n");
 	printIntArr(s, size + 1);
 	int filter[typesNum];
 	for (int i = 0; i < typesNum; i++)
 		filter[i] = 0;
-	for (int i = size; i > 0;) {
+	int i;
+	for (i = size; i > 0 && s[i] == s[i - 1]; i--)
+		;
+	while (i > 0) {
 		for (int j = 0; j < typesNum; j++) {
 			int position = i - types[j]->w;
 			if (s[position] == s[i] - types[j]->v) {
