@@ -49,7 +49,7 @@ int bitree_preorder(BiTree *tree, int (*action)(void *data));
 // Executes the operation given by the function pointer action on the data of each of the nodes of tree, with the postorder pattern. If action returns a value different from 0 at any point, the visit exits immediately with the return value -1, otherwise it will be 0.
 int bitree_postorder(BiTree *tree, int (*action)(void *data));
 
-// Constructs tree (already initialized and empty) so that its nodes contain the values from the array arr, of size len. In the result the node containing the entry of array index i will have its children containing the data of array index 2*i+1 (left) and 2*i+2 (right). Returns -1 if an error occurred, 0 otherwise.
+// Constructs tree (already initialized and empty) so that its nodes contain the values from the array arr, of size len. In the result the node containing the entry of array index i will have its children containing the data of array index 2*i+1 (left) and 2*i+2 (right). Returns -1 if an error occurred, 0 otherwise. If some position contains NULL, the subtree originated by the relative node will be empty.
 int bitree_fromarr(BiTree *tree, const void **arr, int len);
 
 // Evaluates to the number of nodes in tree.
